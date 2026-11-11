@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insight Studio - Content Management & Admin Panel</title>
+  <link rel="icon" type="image/png" href="/assets/images/insight-sun.png?v=3">
+  <link rel="stylesheet" href="/admin/admin.css">
+  
+  <!-- Security Access Gate: Cloudflare & Session Verification -->
+  <script>
+    (function() {
+      var isAuth = sessionStorage.getItem('insight_admin_logged_in') === 'true' || 
+                   localStorage.getItem('insight_admin_logged_in') === 'true';
+      if (!isAuth) {
+        window.location.replace('/admin/login.html');
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- Left Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <a href="/admin/" class="sidebar-brand-wrap" title="Insight Creative Studio">
+          <img src="/assets/images/insight-logo-white.png" alt="Insight Creative Studio" class="sidebar-brand-logo">
+        </a>
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span>CMS Live</span>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Core Pages</div>
+        <a href="#" class="nav-item active" data-page="home">
+          <span class="icon">🏠</span>
+          <span>Home Page</span>
+          <span class="badge">Hero</span>
+        </a>
+        <a href="#" class="nav-item" data-page="about">
+          <span class="icon">ℹ️</span>
+          <span>About Us</span>
+        </a>
+        <a href="#" class="nav-item" data-page="contact">
+          <span class="icon">📞</span>
+          <span>Contact Us</span>
+        </a>
+
+        <div class="nav-section-title">Services</div>
+        <a href="#" class="nav-item" data-page="interior-design">
+          <span class="icon">🛋️</span>
+          <span>Interior Design</span>
+        </a>
+        <a href="#" class="nav-item" data-page="digital-marketing">
+          <span class="icon">📈</span>
+          <span>Digital Marketing</span>
+        </a>
+        <a href="#" class="nav-item" data-page="graphic-design">
+          <span class="icon">🎨</span>
+          <span>Graphic Design</span>
+        </a>
+        <a href="#" class="nav-item" data-page="video-editing">
+          <span class="icon">🎬</span>
+          <span>Video Editing</span>
+        </a>
+        <a href="#" class="nav-item" data-page="branding">
+          <span class="icon">✨</span>
+          <span>Branding & Identity</span>
+        </a>
+
+        <div class="nav-section-title">Agency Details</div>
+        <a href="#" class="nav-item" data-page="pricing">
+          <span class="icon">💰</span>
+          <span>Pricing Plans</span>
+        </a>
+        <a href="#" class="nav-item" data-page="team">
+          <span class="icon">👥</span>
+          <span>Our Team</span>
+        </a>
+        <a href="#" class="nav-item" data-page="faqs">
+          <span class="icon">❓</span>
+          <span>FAQs</span>
+        </a>
+        <a href="#" class="nav-item" data-page="testimonial">
+          <span class="icon">⭐</span>
+          <span>Testimonials</span>
+        </a>
+        <a href="#" class="nav-item" data-page="features">
+          <span class="icon">⚡</span>
+          <span>Features & Process</span>
+        </a>
+        <a href="#" class="nav-item" data-page="blog">
+          <span class="icon">📝</span>
+          <span>Blog / Articles</span>
+        </a>
+
+        <div class="nav-section-title">Legal & Policies</div>
+        <a href="#" class="nav-item" data-page="privacy-policy">
+          <span class="icon">🔒</span>
+          <span>Privacy Policy</span>
+        </a>
+        <a href="#" class="nav-item" data-page="terms-and-conditions">
+          <span class="icon">⚖️</span>
+          <span>Terms & Conditions</span>
+        </a>
+        <a href="#" class="nav-item" data-page="cookie-policy">
+          <span class="icon">🍪</span>
+          <span>Cookie Policy</span>
+        </a>
+
+        <div class="nav-section-title">System & Media</div>
+
+        <a href="#" class="nav-item" data-view="media">
+          <span class="icon">🖼️</span>
+          <span>Assets Library</span>
+        </a>
+        <a href="#" class="nav-item" data-view="global">
+          <span class="icon">🌐</span>
+          <span>Global Settings</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="/" target="_blank" class="view-site-btn">
+          <span>View Live Site</span>
+          <span>↗</span>
+        </a>
+        <button type="button" class="sidebar-logout-btn" id="btn-sidebar-logout" title="Sign out of Admin CMS">
+          <span>🔒</span>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="admin-main">
+      <!-- Top App Bar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <div class="topbar-title">
+            <h1>
+              <span id="current-page-title">Home Page</span>
+              <span class="file-badge" id="current-file-badge">index.html</span>
+            </h1>
+          </div>
+          <div class="topbar-tabs">
+            <button class="topbar-tab active" data-target="view-visual">
+              <span>✏️</span>
+              <span>Visual Sections</span>
+            </button>
+            <button class="topbar-tab" data-target="view-page-media">
+              <span>🎬</span>
+              <span>Images & Videos</span>
+            </button>
+            <button class="topbar-tab" data-target="view-code">
+              <span>💻</span>
+              <span>Raw Code Editor</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="/" target="_blank" id="live-preview-link" class="btn btn-secondary">
+            <span>👁️</span>
+            <span>Preview Page</span>
+          </a>
+          <button class="btn btn-primary" id="btn-save-all">
+            <span>💾</span>
+            <span>Save Changes</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-logout" id="btn-topbar-logout" title="Sign Out of CMS">
+            <span>🔒</span>
+            <span>Logout</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="admin-content">
+        
+        <!-- View 1: Visual Sections Editor -->
+        <div class="editor-view active" id="view-visual">
+
+          <div id="visual-sections-container">
+            <!-- Dynamically populated section cards -->
+          </div>
+        </div>
+
+        <!-- View 1.5: Active Page Images & Videos Inspector -->
+        <div class="editor-view" id="view-page-media">
+          <div class="page-media-header">
+            <div class="page-media-title-wrap">
+              <h2>🎬 Images & Videos on <span id="page-media-curr-page">This Page</span></h2>
+              <p>Every image displays exact dimensions (px) & file size (KB). Change URLs or upload replacements directly from your PC</p>
+            </div>
+            <div class="media-search-wrap">
+              <input type="text" id="page-media-search" class="form-control" placeholder="🔍 Search images or videos by name/URL...">
+            </div>
+          </div>
+
+          <!-- Videos Subsection -->
+          <div class="media-section-block">
+            <div class="block-header">
+              <div class="block-title">
+                <span class="block-icon">🎥</span>
+                <div>
+                  <h3>Videos & Video URLs</h3>
+                  <p id="page-video-count-text">Scanning for videos...</p>
+                </div>
+              </div>
+            </div>
+            <div id="page-videos-container" class="videos-grid">
+              <!-- Dynamically populated video cards -->
+            </div>
+          </div>
+
+          <!-- Images Subsection -->
+          <div class="media-section-block" style="margin-top: 30px;">
+            <div class="block-header">
+              <div class="block-title">
+                <span class="block-icon">🖼️</span>
+                <div>
+                  <h3>Page Images (With Dimensions & File Size)</h3>
+                  <p id="page-image-count-text">Scanning for images...</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter Pills -->
+            <div class="filter-pills-row" id="page-image-filter-pills">
+              <button type="button" class="filter-pill active" data-filter="all">All Images</button>
+              <button type="button" class="filter-pill" data-filter="hero">Hero & Header</button>
+              <button type="button" class="filter-pill" data-filter="partners">Partners</button>
+              <button type="button" class="filter-pill" data-filter="about">About & Process</button>
+              <button type="button" class="filter-pill" data-filter="services">Services</button>
+              <button type="button" class="filter-pill" data-filter="team">Team</button>
+              <button type="button" class="filter-pill" data-filter="testimonials">Testimonials</button>
+              <button type="button" class="filter-pill" data-filter="blog">Blog</button>
+            </div>
+
+            <div id="page-images-container" class="page-images-grid">
+              <!-- Dynamically populated image cards with dimensions & sizes -->
+            </div>
+          </div>
+        </div>
+
+        <!-- View 2: Raw Code Editor -->
+        <div class="editor-view" id="view-code">
+          <div class="code-editor-wrap">
+            <div class="code-editor-header">
+              <span>Full Page HTML Source Code</span>
+              <span style="color: var(--accent);">Direct live editing enabled</span>
+            </div>
+            <textarea class="raw-textarea" id="raw-code-editor" spellcheck="false"></textarea>
+          </div>
+        </div>
+
+        <!-- View 3: Media & Uploads Manager -->
+        <div class="editor-view" id="view-media">
+          <div class="upload-dropzone" id="upload-dropzone">
+            <div class="upload-icon">📁</div>
+            <h3>Upload New File (Images or Videos)</h3>
+            <p>Drag and drop file here, or click to browse (PNG, JPG, WEBP, SVG, MP4, WEBM)</p>
+            <input type="file" id="media-file-input" accept="image/*,video/*" style="display: none;">
+          </div>
+
+          <div style="margin-top: 30px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+              <div>
+                <h3 style="font-size: 15px; font-weight: 700;">Assets Library</h3>
+                <p style="font-size: 12px; color: var(--text-muted);">All uploaded images & videos stored in /assets/</p>
+              </div>
+              <input type="text" id="library-filter" class="form-control" style="max-width: 260px;" placeholder="Filter files...">
+            </div>
+            <div class="media-grid" id="media-items-grid">
+              <!-- Dynamically populated media gallery -->
+            </div>
+          </div>
+        </div>
+
+        <!-- View 4: Global Settings -->
+        <div class="editor-view" id="view-global">
+          <div class="section-card">
+            <div class="section-header">
+              <div class="section-title">
+                <div class="sec-icon">🌐</div>
+                <div>
+                  <h3>Agency Contact & Header Settings</h3>
+                  <p>Updates phone, email, and social links across all pages</p>
+                </div>
+              </div>
+            </div>
+            <div class="section-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Official Email</label>
+                  <input type="text" class="form-control" value="contact@insightcreativebd.com">
+                </div>
+                <div class="form-group">
+                  <label>Official Phone Number</label>
+                  <input type="text" id="global-phone-input" class="form-control" value="+880 1971708689">
+                </div>
+                <div class="form-group full-width">
+                  <label>Office Address</label>
+                  <input type="text" class="form-control" value="Dhaka, Bangladesh">
+                </div>
+                <div class="form-group">
+                  <label>Facebook URL</label>
+                  <input type="text" class="form-control" value="https://facebook.com/insightcreativebd">
+                </div>
+                <div class="form-group">
+                  <label>LinkedIn URL</label>
+                  <input type="text" class="form-control" value="https://linkedin.com/company/insightcreativebd">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Dedicated File Pickers for Instant PC Replacement -->
+  <input type="file" id="page-img-replace-input" accept="image/*" style="display: none;">
+  <input type="file" id="page-vid-replace-input" accept="video/mp4,video/webm,video/quicktime,video/*" style="display: none;">
+  
+  <input type="file" id="partner-logo-upload-input" accept="image/*" style="display: none;">
+  <input type="file" id="partner-logo-add-input" accept="image/*" style="display: none;">
+  <input type="file" id="testi-vid-upload-input" accept="video/mp4,video/webm,video/quicktime,video/*" style="display: none;">
+  <input type="file" id="pricing-vid-upload-input" accept="video/mp4,video/webm,video/quicktime,video/*" style="display: none;">
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
+

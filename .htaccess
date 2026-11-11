@@ -1,0 +1,39 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# 1. Redirect HTTP and non-www to https://www.insightcreativebd.com/
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^www\.insightcreativebd\.com$ [NC]
+RewriteCond %{HTTP_HOST} ^(www\.)?insightcreativebd\.com$ [NC]
+RewriteRule ^(.*)$ https://www.insightcreativebd.com/$1 [R=301,L]
+
+# 2. Strip index.html from root
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
+RewriteRule ^index\.html$ https://www.insightcreativebd.com/ [R=301,L]
+
+# 3. Clean URLs: redirect any legacy .html requests to clean /slug/ (except 404)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+)\.html\ HTTP/
+RewriteCond %{REQUEST_URI} !^/404\.html$
+RewriteRule ^([^/]+)\.html$ https://www.insightcreativebd.com/$1/ [R=301,L]
+
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# Auto Cache-Control: prevent stale favicons, HTML pages, and CMS-updated assets
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html|htm|ico)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+    <FilesMatch "^(insight-sun\.png|fevicon-1\.webp|cropped-fevicon-.*\.webp|favicon\.(ico|png))$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+    <FilesMatch "\.(css|js|webp|png|jpg|jpeg|svg)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>

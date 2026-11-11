@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Insight Creative Studio</title>
+  <link rel="icon" type="image/png" href="/assets/images/insight-sun.png?v=3">
+  <link rel="stylesheet" href="/admin/login.css">
+  <!-- Cloudflare Turnstile official script (fallback ready) -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+</head>
+<body>
+
+  <!-- Background Ambient Glows -->
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="login-wrapper">
+    
+    <div class="login-card">
+      
+      <!-- Top Brand Header -->
+      <div class="login-brand">
+        <a href="/" target="_blank" title="Insight Creative Studio">
+          <img src="/assets/images/insight-logo-white.png" alt="Insight Creative Studio" class="brand-logo-img">
+        </a>
+        <div class="portal-badge">
+          <span class="badge-dot"></span>
+          <span>Security Portal</span>
+        </div>
+      </div>
+
+      <div class="login-heading">
+        <h2>Admin Authentication</h2>
+        <p>Enter your credentials and complete verification to access the CMS</p>
+      </div>
+
+      <!-- Alert Message Box -->
+      <div id="login-alert" class="alert-box" style="display: none;"></div>
+
+      <!-- Login Form -->
+      <form id="admin-login-form" autocomplete="off">
+        
+        <!-- Username -->
+        <div class="form-group">
+          <label for="username">Administrator Username</label>
+          <div class="input-wrap">
+            <span class="input-icon">👤</span>
+            <input type="text" id="username" class="form-input" placeholder="Enter username (e.g. admin)" required autofocus value="admin">
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <div class="label-row">
+            <label for="password">Security Password</label>
+            <span class="forgot-hint" title="Default: admin or insight@2026">Need help?</span>
+          </div>
+          <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="password" class="form-input" placeholder="Enter password" required value="admin">
+            <button type="button" class="btn-toggle-pwd" id="toggle-pwd" title="Show/Hide Password">👁️</button>
+          </div>
+        </div>
+
+        <!-- Cloudflare Turnstile Verification Widget -->
+        <div class="cloudflare-wrap">
+          <div class="cf-box" id="cf-widget-box">
+            <div class="cf-left">
+              <label class="cf-checkbox-container" id="cf-checkbox-container">
+                <input type="checkbox" id="cf-turnstile-checkbox">
+                <span class="cf-checkmark" id="cf-checkmark-icon"></span>
+                <span class="cf-spinner" id="cf-spinner-icon" style="display: none;"></span>
+              </label>
+              <div class="cf-label-wrap">
+                <span class="cf-label-text" id="cf-status-text">Verify you are human</span>
+                <span class="cf-subtext" id="cf-subtext">Click the checkbox to verify</span>
+              </div>
+            </div>
+            
+            <div class="cf-right">
+              <div class="cf-logo-mark">
+                <svg viewBox="0 0 48 48" class="cf-svg-logo" width="28" height="28">
+                  <path fill="#F38020" d="M38.5 28.5c-.2-1.3-.8-2.5-1.7-3.4-.9-.9-2.1-1.5-3.4-1.7-.3-2.1-1.4-4-3.1-5.3-1.7-1.3-3.9-1.9-6-1.7-1.8.2-3.5 1-4.8 2.3-1.3 1.3-2.1 3-2.3 4.8-1.5.2-2.9 1-3.9 2.1-1 1.1-1.5 2.6-1.4 4.1.1 1.5.8 2.9 1.9 3.9 1.1 1 2.5 1.5 4 1.5h19.1c1.3 0 2.6-.5 3.5-1.4.9-1 1.4-2.2 1.4-3.5 0-.6-.1-1.1-.3-1.7z"/>
+                  <path fill="#FAAE40" d="M32.8 22.8c-.3-.8-.8-1.5-1.5-2.1-1.4-1.2-3.3-1.7-5.1-1.4-1.6.2-3 1-4.1 2.2-1.1 1.2-1.7 2.7-1.8 4.3 1.4-.4 2.9-.3 4.2.3 1.3.6 2.4 1.6 3 2.9h5.5c.7 0 1.4-.3 1.9-.8.5-.5.8-1.2.8-1.9 0-1.4-.9-2.7-2.3-3.1-.2-.2-.5-.3-.9-.4z"/>
+                </svg>
+                <div class="cf-brand-text">
+                  <span class="cf-title">CLOUDFLARE</span>
+                  <span class="cf-subtitle">Turnstile Privacy • Terms</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="cf-token" name="cf-token" value="">
+        </div>
+
+        <!-- Remember Me -->
+        <div class="form-meta-row">
+          <label class="remember-label">
+            <input type="checkbox" id="remember-me" checked>
+            <span>Stay signed in for 30 days</span>
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-login" id="btn-submit-login">
+          <span class="btn-text">Sign In to Admin Portal</span>
+          <span class="btn-arrow">→</span>
+        </button>
+          <button type="button" class="btn-demo-login" onclick="quickLogin()" style="margin-top: 12px; width: 100%; background: rgba(253,63,0,0.12); border: 1px dashed rgba(253,63,0,0.4); color: #ff8a65; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500;">
+            ⚡ Instant 1-Click Sign In (admin / admin)
+          </button>
+
+      </form>
+
+      <!-- Credentials Hint Card for Owner -->
+      <div class="credentials-hint">
+        <div class="hint-header">
+          <span>💡 Default Login Credentials</span>
+        </div>
+        <div class="hint-body">
+          <div><strong>Username:</strong> <code>admin</code></div>
+          <div><strong>Password:</strong> <code>admin</code> <span style="color: var(--text-dim);">(or <code>insight@2026</code>)</span></div>
+        </div>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="login-footer">
+        <p>© 2026 Insight Creative Studio. All rights reserved.</p>
+        <p class="security-text">Protected by Cloudflare Turnstile Bot Defense & SSL 256-Bit</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="/admin/login.js"></script>
+</body>
+</html>
+

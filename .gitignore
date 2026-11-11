@@ -1,0 +1,10 @@
+# Dependencies & Temporary Files
+.gemini/
+*.log
+*.bak
+scratch/
+scratch_*/
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
